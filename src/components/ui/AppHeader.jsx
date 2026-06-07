@@ -3,7 +3,7 @@ import BrandLink from "./BrandLink";
 
 const navigationItems = [
   { key: "dashboard", label: "Dashboard" },
-  { key: "applications", label: "Applications" },
+  { key: "applications", label: "Applications", href: "/applications" },
   { key: "resumes", label: "Resumes", href: "/resumes" },
 ];
 

@@ -115,18 +115,24 @@ export default function Home() {
               </div>
               <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
                 <p className="text-sm font-medium text-slate-300">Applications</p>
-                <p className="mt-2 text-lg font-semibold text-white">In progress</p>
+                <Link
+                  href="/applications"
+                  className="mt-3 inline-flex items-center justify-between rounded-2xl bg-white px-4 py-3 text-slate-950 transition hover:bg-slate-100"
+                >
+                  <span className="text-lg font-semibold">Open applications view</span>
+                  <span className="ml-4 text-sm font-semibold text-sky-700">Go</span>
+                </Link>
               </div>
-              <Link
-                href="/resumes"
-                className="flex items-center justify-between rounded-3xl bg-white px-5 py-4 text-slate-950 transition hover:bg-slate-100"
-              >
-                <div>
-                  <p className="text-sm font-medium text-slate-500">Resumes</p>
-                  <p className="mt-1 text-lg font-semibold">Open the resume page</p>
-                </div>
-                <span className="text-sm font-semibold text-sky-700">Go</span>
-              </Link>
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+                  <p className="text-sm font-medium text-slate-300">Resumes</p>
+                  <Link
+                    href="/resumes"
+                    className="mt-3 inline-flex items-center justify-between rounded-2xl bg-white px-4 py-3 text-slate-950 transition hover:bg-slate-100"
+                  >
+                  <span className="text-lg font-semibold">Open the resume page</span>
+                  <span className="ml-4 text-sm font-semibold text-sky-700">Go</span>
+                </Link>
+              </div>
             </div>
           </SectionCard>
         </section>
