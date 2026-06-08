@@ -12,8 +12,13 @@ export function useApplicationForm(applications, setApplications, setNotificatio
 
     useEffect(() => {
         if (!initialLoadDone && !isLoading) {
-            if (applications[0]) {
-                setSelectedId(applications[0].id);
+            if (applications.length > 0) {
+                const newestApp = [...applications].sort((a, b) => {
+                    const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                    const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                    return dateB - dateA;
+                })[0];
+                setSelectedId(newestApp.id);
             } else {
                 setSelectedId("");
                 setDraft(createBlankApplication());
@@ -171,7 +176,18 @@ export function useApplicationForm(applications, setApplications, setNotificatio
 
             setApplications((currentApplications) => {
                 const nextApplications = currentApplications.filter((app) => app.id !== selectedApplication.id);
-                const fallbackApplication = nextApplications[0] || null;
+                
+                // Sort the array newest-first to match the UI list order
+                const sortedApps = [...currentApplications].sort((a, b) => {
+                    const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                    const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                    return dateB - dateA;
+                });
+                const currentIndex = sortedApps.findIndex((app) => app.id === selectedApplication.id);
+                const sortedNextApps = sortedApps.filter((app) => app.id !== selectedApplication.id);
+                
+                // Select the item that takes its place, or the previous one if it was at the very bottom
+                const fallbackApplication = sortedNextApps[currentIndex] || sortedNextApps[currentIndex - 1] || null;
                 
                 if (fallbackApplication) setSelectedId(fallbackApplication.id);
                 else { setSelectedId(""); setDraft(createBlankApplication()); }

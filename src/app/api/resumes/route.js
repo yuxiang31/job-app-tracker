@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import db from "@/lib/db";
+import { isValidUrl } from "@/utils/validation";
 
 export async function GET() {
 	try {
@@ -40,6 +41,13 @@ export async function POST(request) {
 		if (!name || !fileUrl) {
 			return NextResponse.json(
 				{ error: "Both name and fileUrl are required." },
+				{ status: 400 }
+			);
+		}
+
+		if (!isValidUrl(fileUrl)) {
+			return NextResponse.json(
+				{ error: "Please provide a valid URL (e.g., https://example.com/resume.pdf)." },
 				{ status: 400 }
 			);
 		}
@@ -91,4 +99,3 @@ export async function POST(request) {
 		);
 	}
 }
-

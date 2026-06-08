@@ -17,6 +17,12 @@ export async function PUT(req, { params }) {
 	const body = await req.json();
 	const { content } = body;
 
+	// Verify that the parent application exists
+	const appCheck = db.prepare(`SELECT id FROM applications WHERE id = ?`).get(applicationId);
+	if (!appCheck) {
+		return new Response(JSON.stringify({ error: "Application not found." }), { status: 404 });
+	}
+
 	// check if a note exists
 	const getStmt = db.prepare(`SELECT id FROM notes WHERE application_id = ?`);
 	const existing = getStmt.get(applicationId);
@@ -34,4 +40,3 @@ export async function PUT(req, { params }) {
 
 	return new Response(JSON.stringify({ id: noteId, applicationId, content: content || "", updatedAt: new Date().toISOString() }), { status: 201 });
 }
-

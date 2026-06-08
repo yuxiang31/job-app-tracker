@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
+import { isValidUrl } from "../utils/validation";
 
 const initialFormState = {
 	name: "",
@@ -76,6 +77,12 @@ export function useResumeManager() {
 
 		if (!name || !fileUrl) {
 			setError("Both name and link are required.");
+			setMessage("");
+			return;
+		}
+
+		if (!isValidUrl(fileUrl)) {
+			setError("Please provide a valid URL (e.g., https://example.com/resume.pdf).");
 			setMessage("");
 			return;
 		}
