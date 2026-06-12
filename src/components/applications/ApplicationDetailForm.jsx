@@ -67,7 +67,7 @@ export default function ApplicationDetailForm({
                             className="w-full rounded-2xl border border-white/10 bg-slate-950/75 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-200/20"
                         >
                             {statusOptions.filter((option) => option !== "All").map((option) => (
-                                <option key={option} value={option} className="text-slate-950">{option}</option>
+                                <option key={option} value={option} className="bg-white text-slate-950">{option}</option>
                             ))}
                         </select>
                     </label>
@@ -89,9 +89,9 @@ export default function ApplicationDetailForm({
                     <label className="block">
                         <span className="mb-2 block text-sm font-medium text-slate-300">Resume</span>
                         <select name="resumeId" value={draft.resumeId} autoComplete="off" onChange={handleFieldChange} className="w-full rounded-2xl border border-white/10 bg-slate-950/75 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-200/20">
-                            <option value="" className="text-slate-950">Unassigned</option>
+                            <option value="" className="bg-white text-slate-950">Unassigned</option>
                             {resumes.map((resume) => (
-                                <option key={resume.id} value={resume.id} className="text-slate-950">{resume.name}</option>
+                                <option key={resume.id} value={resume.id} className="bg-white text-slate-950">{resume.name}</option>
                             ))}
                         </select>
                     </label>

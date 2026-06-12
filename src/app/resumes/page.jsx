@@ -1,4 +1,4 @@
-import ResumeManager from "@/components/resumes/ResumeManager";
+import ResumeManager from "@/components/resumes/Resume";
 
 export default function ResumesPage() {
 	return <ResumeManager />;

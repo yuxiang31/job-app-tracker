@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export function useDashboard() {
   const [metricsData, setMetricsData] = useState({
@@ -10,6 +10,7 @@ export function useDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
+  const [selectedNotes, setSelectedNotes] = useState(null);
 
   useEffect(() => {
     async function fetchMetrics() {
@@ -74,6 +75,47 @@ export function useDashboard() {
     currentPage * itemsPerPage
   );
 
+  const handleViewNotes = async (interview) => {
+    if (selectedNotes?.id === interview.id) {
+      setSelectedNotes(null);
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/applications/${interview.id}/notes`, { cache: "no-store" });
+      if (!response.ok) throw new Error("Failed to load notes");
+      
+      const data = await response.json();
+      setSelectedNotes({
+        ...interview,
+        notes: data?.content ?? "No notes available for this application."
+      });
+    } catch (error) {
+      console.error("Error fetching notes:", error);
+      setSelectedNotes({
+        ...interview,
+        notes: "No notes available for this application."
+      });
+    }
+  };
+
+  const clearSelectedNotes = useCallback(() => {
+    setSelectedNotes(null);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        !e.target.closest("[data-notes-panel]") &&
+        !e.target.closest("[data-view-btn]")
+      ) {
+        clearSelectedNotes();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [clearSelectedNotes]);
+
   return {
     metricsData,
     upcomingInterviews,
@@ -82,5 +124,8 @@ export function useDashboard() {
     setCurrentPage,
     totalPages,
     paginatedInterviews,
+    selectedNotes,
+    handleViewNotes,
+    clearSelectedNotes,
   };
 }
