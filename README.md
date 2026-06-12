@@ -62,9 +62,11 @@ Install Dependencies
 ```
 npm install
 ```
+Initialize Database
 ```
 npm run db:init
 ```
+Start Development Server
 ```
 npm run dev
 ```
