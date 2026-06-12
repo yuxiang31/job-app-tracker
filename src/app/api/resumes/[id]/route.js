@@ -21,8 +21,6 @@ export async function DELETE(request, { params}) {
 			)
 			.run(id);
 
-        console.log(result)
-
 		if (result.changes === 0) {
 			return NextResponse.json(
 				{ error: "Resume not found." },
